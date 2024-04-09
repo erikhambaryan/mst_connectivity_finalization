@@ -1,283 +1,217 @@
 #include <iostream>
-#include <unistd.h>
-#include <cstdlib>
 #include <vector>
+#include <algorithm>
+#include <climits>
+#include <map>
 
-//save test : 4/2/2024
 using namespace std;
 
 
-void anim(){
-
-    double seconds = 0.3;
-    double input_sec = seconds * 1000000;
-    for(int i = 0; i < 10; i++){
-
-        system("clear");
-        cout << "________________________           " << endl;
-        cout << "|   |    |    |    | |  |          " << endl;
-        cout << "|___|____|____|____|_|__|_         " << endl;
-        cout << "|                  | |    )        " << endl;
-        cout << "`--(o)(o)------------(o)--'        " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING" << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "      _______________________      " << endl;
-        cout << "     |   |    |    |    | |  |     " << endl;
-        cout << "     |___|____|____|____|_|__|_    " << endl;
-        cout << "     |                  | |    )   " << endl;
-        cout << "     `--(o)(o)------------(o)--'   " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "           _______________________ " << endl;
-        cout << "          |   |    |    |    | |  |" << endl;
-        cout << "          |___|____|____|____|_|__|" << endl;
-        cout << "          |                  | |   " << endl;
-        cout << "          `--(o)(o)------------(o)-" << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING.." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "                ___________________" << endl;
-        cout << "               |   |    |    |    |" << endl;
-        cout << "               |___|____|____|____|" << endl;
-        cout << "               |                  |" << endl;
-        cout << "               `--(o)(o)-----------" << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING..." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "                     ______________" << endl;
-        cout << "                    |   |    |    |" << endl;
-        cout << "                    |___|____|____|" << endl;
-        cout << "                    |              " << endl;
-        cout << "                    `--(o)(o)------" << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING" << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "                           ________" << endl;
-        cout << "                          |   |    " << endl;
-        cout << "                          |___|____" << endl;
-        cout << "                          |        " << endl;
-        cout << "                          `--(o)(o)" << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING.." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "                                   " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING..." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "_____                              " << endl;
-        cout << "| |  |                             " << endl;
-        cout << "|_|__|_                            " << endl;
-        cout << "| |    )                           " << endl;
-        cout << "--(o)--'                           " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING" << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "___________                        " << endl;
-        cout << " |    | |  |                       " << endl;
-        cout << "_|____|_|__|_                      " << endl;
-        cout << "      | |    )                     " << endl;
-        cout << "--------(o)--'                     " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "__________________                 " << endl;
-        cout << "   |    |    | |  |                " << endl;
-        cout << "___|____|____|_|__|_               " << endl;
-        cout << "            | |     )               " << endl;
-        cout << "(o)------------(o)--'              " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING.." << endl;
-        usleep(input_sec);
-
-        system("clear");
-        cout << "________________________           " << endl;
-        cout << "|   |    |    |    | |  |          " << endl;
-        cout << "|___|____|____|____|_|__|_         " << endl;
-        cout << "|                  | |    )        " << endl;
-        cout << "`--(o)(o)------------(o)--'        " << endl;
-        cout << "-----------------------------------" << endl;
-        cout << "LOADING..." << endl;
-        usleep(input_sec * 3);
 
 
 
+// Structure to represent an edge in the graph
+struct Edge {
+    string src, dest;
+    int weight;
+};
+
+class Graph {
+    map<string, int> habitatIndices; 
+    int V; // Number of vertices
+    vector<Edge> edges; // Vector to store edges of the graph
+    vector<vector<int>> adjList; 
+
+public:
+    Graph(int V) {
+        this->V = V;
+        adjList.resize(V);
     }
 
-}
+    // Add an edge to the graph
+    void addEdge(const string& src, const string& dest, int weight) {
+        Edge edge;
+        edge.src = src;
+        edge.dest = dest;
+        edge.weight = weight;
+        edges.push_back(edge);
 
-
-void addEdge(vector<vector<int>>& adjList, int u, int v) {
-    adjList[u].push_back(v);
-    adjList[v].push_back(u);
-}
-
-void printAdjacencyList(const vector<vector<int>>& adjList) {
-    for (int i = 0; i < adjList.size(); ++i) {
-        cout << "Vertex___(" << i << ")";
-        for (auto v : adjList[i])
-            cout << "->(" << v << ")";
-        cout << endl;
-    }
-}
-
-
-
-
-//_______________________________________________________________________________________________
-// Depth First Search (DFS) to find all paths
-void dfs(const vector<vector<int>>& adjList, int current, int finish, vector<bool>& visited, vector<int>& path, vector<vector<int>>& allPaths, int& minPathLength) {
-    visited[current] = true;
-    path.push_back(current);
-
-    if (current == finish) { // If we reach the finish vertex
-        if (path.size() < minPathLength) {
-            allPaths.clear();
-            minPathLength = path.size();
-        }
-        if (path.size() == minPathLength) {
-            allPaths.push_back(path);
-        }
-    } else {
-        for (int v : adjList[current]) {
-            if (!visited[v]) {
-                dfs(adjList, v, finish, visited, path, allPaths, minPathLength);
-            }
-        }
+        // Adding edge to adjacency list
+        adjList[habitatIndices[src]].push_back(habitatIndices[dest]);
+        adjList[habitatIndices[dest]].push_back(habitatIndices[src]);
     }
 
-    path.pop_back();
-    visited[current] = false;
-}
+    // Function to find the parent of a subset
+    int find(vector<int>& parent, int i) {
+        if (parent[i] == -1)
+            return i;
+        return find(parent, parent[i]);
+    }
 
-// Function to find the shortest path between two vertices using DFS
-vector<int> shortestPathDFS(const vector<vector<int>>& adjList, int start, int finish) {
-    vector<bool> visited(adjList.size(), false);
-    vector<int> path;
-    vector<vector<int>> allPaths;
-    int minPathLength = INT_MAX;
+    
+    void Union(vector<int>& parent, int x, int y) {
+        int xset = find(parent, x);
+        int yset = find(parent, y);
+        parent[xset] = yset;
+    }
 
-    dfs(adjList, start, finish, visited, path, allPaths, minPathLength);
+    
+    void KruskalMST() {
+        vector<Edge> result; // Stores the resultant MST
+        int e = 0; 
+        int i = 0; 
 
-    if (allPaths.empty()) // If no path found
-        return vector<int>();
+        // Sort all edges in non-decreasing order of their weight
+        sort(edges.begin(), edges.end(), [](const Edge &a, const Edge &b) {
+            return a.weight < b.weight;
+        });
 
-    // Select the shortest path among all paths found
-    return allPaths[0];
-}
-//_______________________________________________________________________________________________
+        vector<int> parent(V, -1); // Array to store parent of a node to detect cycles
 
+        // Number of edges to be taken is equal to V-1
+        while (e < V - 1 && i < edges.size()) {
+            Edge next_edge = edges[i++];
+            int x = find(parent, habitatIndices[next_edge.src]);
+            int y = find(parent, habitatIndices[next_edge.dest]);
 
-
-int main(int argc) {
-    system("clear");
-
-    //animation part with arg (1)
-            if(argc == 2){
-                cout << "ANIMATION: ON" << endl;
-                sleep(2);
-                anim();
+            // If including this edge does not cause cycle, include it in result
+            if (x != y) {
+                result.push_back(next_edge);
+                Union(parent, x, y);
+                ++e;
             }
-            else {
-                cout << "ANIMATION: OFF" << endl;
-                sleep(1);
+        }
+
+        
+        cout << "Edges of Minimum Spanning Tree:" << endl;
+        for (i = 0; i < result.size(); ++i)
+            cout << result[i].src << " - " << result[i].dest << " : " << result[i].weight << endl;
+    }
+
+    // Depth First Search (DFS) to find all paths
+    void dfs(int current, int finish, vector<bool>& visited, vector<int>& path, vector<vector<int>>& allPaths, int& minPathLength) {
+        visited[current] = true;
+        path.push_back(current);
+
+        if (current == finish) { // If we reach the finish vertex
+            if (path.size() < minPathLength) {
+                allPaths.clear();
+                minPathLength = path.size();
             }
+            if (path.size() == minPathLength) {
+                allPaths.push_back(path);
+            }
+        } else {
+            for (int v : adjList[current]) {
+                if (!visited[v]) {
+                    dfs(v, finish, visited, path, allPaths, minPathLength); // Recursive call for next vertex
+                }
+            }
+        }
 
+        path.pop_back();
+        visited[current] = false;
+    }
+    
+    // Function to find the shortest path between two vertices using DFS
+    vector<int> shortestPathDFS(const string& start, const string& finish) {
+        vector<bool> visited(V, false);
+        vector<int> path;
+        vector<vector<int>> allPaths;
+        int minPathLength = INT_MAX;
 
-// FOLDED please open
-    //user input
-    int v, e;
-    cout << "\nEnter the number of vertices:";
-    cin >> v;
-    cout << "Number of vertices set:" << v;
-    cout << "\n\nEnter the number of edges:";
-    cin >> e;
-    cout << "Number of edges set:" << e;
+        dfs(habitatIndices[start], habitatIndices[finish], visited, path, allPaths, minPathLength);
 
+        if (allPaths.empty()) // If no path found
+            return vector<int>();
 
-        //creation of adjecansy list
-    vector<vector<int>> adjList(v);
+        // Select the shortest path among all paths found
+        return allPaths[0];
+    }
 
+    // Function to add a habitat to the graph
+    void addHabitat(const string& name, bool isEmpty) {
+        habitatIndices[name] = V;
+        ++V;
+        adjList.resize(V);
+    }
 
+    // Function to get the index of a habitat by its name
+    int getIndex(const string& name) {
+        return habitatIndices[name];
+    }
 
-    // Take input for edges
-    cout << "\n\nEnter edges in pairs (x.space.y):\n";
-    for (int i = 0; i < e; ++i) {
-        int u, v;
+    // Function to get the habitat name by its index
+    string getHabitatName(int index) {
+        for (const auto& entry : habitatIndices) {
+            if (entry.second == index) {
+                return entry.first;
+            }
+        }
+        return ""; // Return empty string if index not found (should not happen)
+    }
+};
+
+int main() {
+
+	
+    int V, E;
+    cout << "Enter the number of habitats: ";
+    cin >> V;
+    cout << "Enter the number of edges: ";
+    cin >> E;
+
+    Graph graph(V);
+
+    // Input habitats and their emptiness
+    for (int i = 0; i < V; ++i) {
+        string habitat;
+        bool isEmpty;
+        cout << "Enter habitat name: ";
+        cin >> habitat;
+        cout << "Is habitat " << habitat << " empty? (1 for yes, 0 for no): ";
+        cin >> isEmpty;
+        graph.addHabitat(habitat, isEmpty);
+    }
+
+    // Input edges
+    cout << "\nEnter edges in format (src dest weight):\n";
+    for (int i = 0; i < E; ++i) {
+        string src, dest;
+        int weight;
         cout << "Edge " << i + 1 << ": ";
-        cin >> u >> v;
-        addEdge(adjList, u, v);
+        cin >> src >> dest >> weight;
+        graph.addEdge(src, dest, weight);
     }
-    cout << "\nADJ_LIST CREATED AND FILLED:\n";
 
+    
+    graph.KruskalMST();
 
-
-    // Print adjacency list
-    cout << "\nAdjacency List representation of the graph:\n";
-    printAdjacencyList(adjList);
-
-// FOLDED please open
-
-    //calculating shortest routs from start to finish if possible
+    // Testing DFS
     cout << "\n\nGIVE 2 VERTEXES TO FIND THE SHORTEST (if) POSSIBLE ROUTE\n";
-
-    int s, f;
-    cout << "Enter Start poit:";
+    string s, f;
+    cout << "Enter Start point: ";
     cin >> s;
-    cout << "Start point set:" << s;
-    cout << "\n\nEnter Finish point:";
+    cout << "\nStart point set: " << s;
+    cout << "\n\nEnter Finish point: ";
     cin >> f;
-    cout << "Finish point set:" << f;
+    cout << "Finish point set: " << f;
 
     // Find the shortest path using DFS
-    vector<int> shortestPath = shortestPathDFS(adjList, s, f);
+    vector<int> shortestPath = graph.shortestPathDFS(s, f);
 
     // Print the shortest path
-    cout << "Shortest Path from vertex " << s << " to vertex " << f << ": ";
+    cout << "Shortest Path from habitat " << s << " to habitat " << f << ": ";
     if (shortestPath.empty()) {
         cout << "No path exists!" << endl;
     } else {
         for (int i = 0; i < shortestPath.size(); ++i) {
-            cout << shortestPath[i];
+            cout << graph.getHabitatName(shortestPath[i]);
             if (i != shortestPath.size() - 1)
                 cout << " -> ";
         }
         cout << endl;
     }
-
 
     return 0;
 }
